@@ -4,7 +4,7 @@
         "commonjs": true,
         "es6": true
     },
-    "extends": "airbnb-base",
+    "extends": ["airbnb-base", "prettier"],
     "globals": {
         "Atomics": "readonly",
         "SharedArrayBuffer": "readonly"
@@ -12,6 +12,7 @@
     "parserOptions": {
         "ecmaVersion": 2018
     },
+    "plugins": ["prettier"],
     "rules": {
         "camelcase": 0,
         "indent": [
@@ -22,6 +23,8 @@
             }
         ],
         "no-console": 0,
-        "no-param-reassign": 0
+        "no-param-reassign": 0,
+        "no-underscore-dangle": 0,
+        "prettier/prettier": "error"
     }
 }

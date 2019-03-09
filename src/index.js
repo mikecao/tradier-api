@@ -8,6 +8,8 @@ const TOKEN_FILE = './token';
 const ENDPOINT = 'prod';
 
 function print(response) {
+    console.log(response.config.url);
+    console.log('--------------');
     console.log(util.inspect(response.data, false, null, true));
     return Promise.resolve(response);
 }
@@ -17,9 +19,10 @@ function error(err) {
 }
 
 function getToken() {
-    return fs.existsSync(TOKEN_FILE)
-        && fs.readFileSync(TOKEN_FILE, { encoding: 'utf8' })
-            .replace(/\n$/, '');
+    return (
+        fs.existsSync(TOKEN_FILE) &&
+        fs.readFileSync(TOKEN_FILE, { encoding: 'utf8' }).replace(/\n$/, '')
+    );
 }
 
 // Start
@@ -40,19 +43,25 @@ console.log('--------------');
 // Do stuff
 switch (action) {
     case 'quote':
-        tradier.quote(params[0].split(',')).then(print).catch(error);
+        tradier
+            .quote(params[0].split(','))
+            .then(print)
+            .catch(error);
         break;
     case 'timesales':
-        tradier.timesales(...params)
+        tradier
+            .timesales(...params)
             .then(print)
-            .then((response) => {
+            .then(response => {
                 console.log(`Records: ${response.data.series.data.length}`);
             })
             .catch(error);
         break;
     default:
         if (tradier[action]) {
-            tradier[action](...params).then(print).catch(error);
+            tradier[action](...params)
+                .then(print)
+                .catch(error);
         } else {
             console.log('unknown action');
         }
