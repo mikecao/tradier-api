@@ -1,4 +1,5 @@
-/* eslint-disable no-console */
+#!/usr/bin/env node
+
 const fs = require('fs');
 const util = require('util');
 const minimist = require('minimist');
@@ -27,8 +28,7 @@ function getToken() {
 
 // Start
 const args = minimist(process.argv.slice(2));
-const params = args._.slice(1);
-const [action] = args._;
+const [action, ...params] = args._;
 const token = getToken();
 const tradier = new Tradier(token, ENDPOINT);
 

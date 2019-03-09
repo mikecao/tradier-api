@@ -1,8 +1,23 @@
 {
   "name": "tradier-api",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "author": "Mike Cao <mike@mikecao.com>",
-  "private": true,
+  "description": "Node.js library for the Tradier API",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mikecao/tradier-api"
+  },
+  "bin": {
+    "tradier": "./src/cli.js"
+  },
+  "main": "./src/tradier.js",
+  "keywords": [
+    "tradier",
+    "api",
+    "trading",
+    "stocks"
+  ],
   "dependencies": {
     "axios": "^0.18.0",
     "chalk": "^2.4.2",
