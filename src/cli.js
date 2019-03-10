@@ -6,11 +6,15 @@ const minimist = require('minimist');
 const Tradier = require('./tradier');
 
 const TOKEN_FILE = './token';
-const ENDPOINT = 'prod';
+const args = minimist(process.argv.slice(2));
+const [action, ...params] = args._;
+const { token, endpoint, debug } = args;
 
 function print(response) {
-    console.log(response.config.url);
-    console.log('--------------');
+    if (debug) {
+        console.log(response.config.url);
+        console.log('--------------');
+    }
     console.log(util.inspect(response.data, false, null, true));
     return Promise.resolve(response);
 }
@@ -26,43 +30,21 @@ function getToken() {
     );
 }
 
-// Start
-const args = minimist(process.argv.slice(2));
-const [action, ...params] = args._;
-const token = getToken();
-const tradier = new Tradier(token, ENDPOINT);
+const tradier = new Tradier(token || getToken(), endpoint || 'prod');
 
-// Print stuff
-console.log('args:', args);
-console.log('--------------');
-process.argv.forEach((val, index) => {
-    console.log(`${index}: ${val}`);
-});
-console.log('--------------');
+if (debug) {
+    console.log('args:', args);
+    console.log('--------------');
+    process.argv.forEach((val, index) => {
+        console.log(`${index}: ${val}`);
+    });
+    console.log('--------------');
+}
 
-// Do stuff
-switch (action) {
-    case 'quote':
-        tradier
-            .quote(params[0].split(','))
-            .then(print)
-            .catch(error);
-        break;
-    case 'timesales':
-        tradier
-            .timesales(...params)
-            .then(print)
-            .then(response => {
-                console.log(`Records: ${response.data.series.data.length}`);
-            })
-            .catch(error);
-        break;
-    default:
-        if (tradier[action]) {
-            tradier[action](...params)
-                .then(print)
-                .catch(error);
-        } else {
-            console.log('unknown action');
-        }
+if (tradier[action]) {
+    tradier[action](...params)
+        .then(print)
+        .catch(error);
+} else {
+    console.log('Usage: tradier <command> [options]');
 }

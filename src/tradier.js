@@ -84,53 +84,53 @@ class Tradier {
     // endregion
 
     // region User Data
-    profile() {
+    getProfile() {
         return this.get('user/profile');
     }
 
-    balances() {
+    getBalances() {
         return this.get('user/balances');
     }
 
-    positions() {
+    getPositions() {
         return this.get('user/positions');
     }
 
-    history() {
+    getHistory() {
         return this.get('user/history');
     }
 
-    gainloss() {
+    getGainloss() {
         return this.get('user/gainloss');
     }
 
-    orders() {
+    getOrders() {
         return this.get('user/orders');
     }
     // endregion
 
     // region Account Data
-    accountBalances(account) {
+    getAccountBalances(account) {
         return this.get(`accounts/${account}/balances`);
     }
 
-    accountPositions(account) {
+    getAccountPositions(account) {
         return this.get(`accounts/${account}/positions`);
     }
 
-    accountHistory(account) {
+    getAccountHistory(account) {
         return this.get(`accounts/${account}/history`);
     }
 
-    accountGainloss(account) {
+    getAccountGainloss(account) {
         return this.get(`accounts/${account}/gainloss`);
     }
 
-    accountOrders(account) {
+    getAccountOrders(account) {
         return this.get(`accounts/${account}/orders`);
     }
 
-    accountOrder(account, order) {
+    getAccountOrder(account, order) {
         return this.get(`accounts/${account}/orders/${order}`);
     }
     // endregion
@@ -157,13 +157,13 @@ class Tradier {
     // endregion
 
     // region Market Data
-    quote(symbols) {
+    getQuote(symbols) {
         return this.get('markets/quotes', {
             symbols: ensureArray(symbols).join(','),
         });
     }
 
-    timesales(symbol, interval, start, end, session_filter) {
+    getTimesales(symbol, interval, start, end, session_filter) {
         return this.get('markets/timesales', {
             symbol,
             interval,
@@ -173,22 +173,22 @@ class Tradier {
         });
     }
 
-    optionsChains(symbol, expiration) {
+    getOptionChains(symbol, expiration) {
         return this.get('markets/options/chains', { symbol, expiration });
     }
 
-    optionsStrikes(symbol, expiration) {
+    getOptionStrikes(symbol, expiration) {
         return this.get('markets/options/strikes', { symbol, expiration });
     }
 
-    optionsExpirations(symbol, includeAllRoots) {
+    getOptionExpirations(symbol, includeAllRoots) {
         return this.get('markets/options/expirations', {
             symbol,
             includeAllRoots,
         });
     }
 
-    quoteHistory(symbol, interval, start, end) {
+    getPriceHistory(symbol, interval, start, end) {
         return this.get('markets/history', {
             symbol,
             interval,
@@ -197,11 +197,11 @@ class Tradier {
         });
     }
 
-    clock() {
+    getClock() {
         return this.get('markets/clock');
     }
 
-    calendar(market, year) {
+    getCalendar(market, year) {
         return this.get('markets/calendar', { market, year });
     }
 
@@ -214,7 +214,7 @@ class Tradier {
     }
 
     // region Fundamentals (BETA)
-    company(symbols) {
+    getCompany(symbols) {
         return this.get(
             'markets/fundamentals/company',
             { symbols: parseSymbols(symbols) },
@@ -222,7 +222,7 @@ class Tradier {
         );
     }
 
-    calendars(symbols) {
+    getCalendars(symbols) {
         return this.get(
             'markets/fundamentals/calendars',
             { symbols: parseSymbols(symbols) },
@@ -230,7 +230,7 @@ class Tradier {
         );
     }
 
-    dividends(symbols) {
+    getDividends(symbols) {
         return this.get(
             'markets/fundamentals/dividends',
             { symbols: parseSymbols(symbols) },
@@ -238,7 +238,7 @@ class Tradier {
         );
     }
 
-    corporateActions(symbols) {
+    getCorporateActions(symbols) {
         return this.get(
             'markets/fundamentals/corporate_actions',
             { symbols: parseSymbols(symbols) },
@@ -246,7 +246,7 @@ class Tradier {
         );
     }
 
-    ratios(symbols) {
+    getRatios(symbols) {
         return this.get(
             'markets/fundamentals/ratios',
             { symbols: parseSymbols(symbols) },
@@ -254,7 +254,7 @@ class Tradier {
         );
     }
 
-    financials(symbols) {
+    getFinancials(symbols) {
         return this.get(
             'markets/fundamentals/financials',
             { symbols: parseSymbols(symbols) },
@@ -262,7 +262,7 @@ class Tradier {
         );
     }
 
-    statistics(symbols) {
+    getStatistics(symbols) {
         return this.get(
             'markets/fundamentals/statistics',
             { symbols: parseSymbols(symbols) },
@@ -272,11 +272,11 @@ class Tradier {
     // endregion
 
     // region Watchlists
-    watchlists() {
+    getWatchlists() {
         return this.get('/watchlists');
     }
 
-    watchlist(id) {
+    getWatchlist(id) {
         return this.get(`/watchlists/${id}`);
     }
 
@@ -314,7 +314,7 @@ class Tradier {
         return this.post('markets/events/session');
     }
 
-    events(sessionid, symbols, filter, linebreak) {
+    getEvents(sessionid, symbols, filter, linebreak) {
         return this.post(
             'markets/events',
             {
