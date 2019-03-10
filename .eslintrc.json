@@ -14,7 +14,6 @@
     },
     "plugins": ["prettier"],
     "rules": {
-        "camelcase": 0,
         "indent": [
             "error",
             4,

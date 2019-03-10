@@ -36,9 +36,8 @@ const {
     debug,
 } = argv;
 
-function print(response) {
-    console.log(util.inspect(response.data, false, null, true));
-    return Promise.resolve(response);
+function print(data) {
+    console.log(util.inspect(data, false, null, true));
 }
 
 function error(err) {
