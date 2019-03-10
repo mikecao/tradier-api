@@ -2,38 +2,65 @@
 
 const fs = require('fs');
 const util = require('util');
-const minimist = require('minimist');
+const yargs = require('yargs');
 const Tradier = require('./tradier');
 
-const TOKEN_FILE = './token';
-const args = minimist(process.argv.slice(2));
-const [action, ...params] = args._;
-const { token, endpoint, debug } = args;
+const CONFIG_FILE = './tradier.json';
+const cmd = yargs
+    .usage('Usage: tradier <command> [options]')
+    .options({
+        debug: {
+            type: 'boolean',
+            alias: 'd',
+            describe: 'Show debug output',
+        },
+        token: {
+            type: 'string',
+            alias: 't',
+            describe: 'API token',
+        },
+        endpoint: {
+            type: 'string',
+            alias: 'e',
+            describe: 'API endpoint (prod, beta, sandbox)',
+        },
+    })
+    .help('h')
+    .alias('h', 'help');
+
+const { argv } = cmd;
+const {
+    _: [action, ...params],
+    token,
+    endpoint,
+    debug,
+} = argv;
 
 function print(response) {
-    if (debug) {
-        console.log(response.config.url);
-        console.log('--------------');
-    }
     console.log(util.inspect(response.data, false, null, true));
     return Promise.resolve(response);
 }
 
 function error(err) {
-    console.error(err.response || err.message);
+    if (debug) {
+        console.log(err.response);
+    }
+    console.error(`ERROR: ${err.message}`);
+    console.error(`${err.response.data}`);
 }
 
-function getToken() {
-    return (
-        fs.existsSync(TOKEN_FILE) &&
-        fs.readFileSync(TOKEN_FILE, { encoding: 'utf8' }).replace(/\n$/, '')
+function getConfig() {
+    return JSON.parse(
+        fs.existsSync(CONFIG_FILE) &&
+            fs.readFileSync(CONFIG_FILE, { encoding: 'utf8' })
     );
 }
 
-const tradier = new Tradier(token || getToken(), endpoint || 'prod');
+const config = getConfig();
+const tradier = new Tradier(token || config.token, endpoint || config.endpoint);
 
 if (debug) {
-    console.log('args:', args);
+    console.log('args:', argv);
     console.log('--------------');
     process.argv.forEach((val, index) => {
         console.log(`${index}: ${val}`);
@@ -46,5 +73,5 @@ if (tradier[action]) {
         .then(print)
         .catch(error);
 } else {
-    console.log('Usage: tradier <command> [options]');
+    cmd.showHelp();
 }

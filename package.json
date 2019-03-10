@@ -22,7 +22,8 @@
     "axios": "^0.18.0",
     "ensure-array": "^1.0.0",
     "minimist": "^1.2.0",
-    "passport-tradier": "^0.2.0"
+    "passport-tradier": "^0.2.0",
+    "yargs": "^13.2.2"
   },
   "devDependencies": {
     "eslint": "^5.14.1",
