@@ -27,8 +27,14 @@ function parseQuery(url, params) {
     return query ? `${url}?${query}` : url;
 }
 
+function parseData(data) {
+    return typeof data === 'object'
+        ? querystring.stringify(data)
+        : querystring.parse(data);
+}
+
 class Tradier {
-    constructor(accessToken, endpoint = 'sandbox') {
+    constructor(accessToken, endpoint = 'prod') {
         this.accessToken = accessToken;
         this.endpoint = endpoint;
     }
@@ -57,7 +63,7 @@ class Tradier {
         return axios.request({
             method: 'post',
             url,
-            data: querystring.stringify(data),
+            data: parseData(data),
             ...this.config(),
             ...config,
         });
@@ -67,7 +73,7 @@ class Tradier {
         return axios.request({
             method: 'put',
             url,
-            data,
+            data: parseData(data),
             ...this.config(),
             ...config,
         });
@@ -168,8 +174,8 @@ class Tradier {
 
     previewOrder(account, data) {
         return this.post(`accounts/${account}/orders`, {
+            ...parseData(data),
             preview: true,
-            ...data,
         }).then(({ data: { order } }) => order);
     }
 

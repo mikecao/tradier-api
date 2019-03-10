@@ -7,7 +7,7 @@ const Tradier = require('./tradier');
 
 const CONFIG_FILE = './tradier.json';
 const cmd = yargs
-    .usage('Usage: tradier <command> [options]')
+    .usage('Usage: tradier <command> [arguments]')
     .options({
         debug: {
             type: 'boolean',
