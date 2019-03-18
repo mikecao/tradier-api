@@ -196,7 +196,13 @@ class Tradier {
     getQuote(symbols) {
         return this.get('markets/quotes', {
             symbols: ensureArray(symbols).join(','),
-        }).then(({ data: { quotes } }) => quotes);
+        }).then(
+            ({
+                data: {
+                    quotes: { quote },
+                },
+            }) => quote
+        );
     }
 
     getTimesales(symbol, interval, start, end, sessionFilter) {
