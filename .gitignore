@@ -15,4 +15,4 @@ Thumbs.db
 
 # Project
 node_modules
-tradier.json
+.env

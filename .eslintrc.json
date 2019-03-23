@@ -14,13 +14,6 @@
     },
     "plugins": ["prettier"],
     "rules": {
-        "indent": [
-            "error",
-            4,
-            {
-                "SwitchCase": 1
-            }
-        ],
         "no-console": 0,
         "no-param-reassign": 0,
         "no-underscore-dangle": 0,
